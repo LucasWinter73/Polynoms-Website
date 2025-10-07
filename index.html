@@ -148,17 +148,17 @@
 		}
 
 		.btn-calculate {
-			background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+			background: linear-gradient(135deg, #0099ff 0%, #56a1d6 100%);
 			color: white;
 			width: 100%;
 			padding: 18px;
 			font-size: 19px;
-			box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+			box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
 		}
 
 		.btn-calculate:hover {
 			transform: translateY(-2px);
-			box-shadow: 0 8px 24px rgba(52, 199, 89, 0.4);
+			box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4);
 		}
 
 		.btn-calculate:active {
@@ -240,10 +240,14 @@
 			justify-content: center;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 			border: 1px solid #f5f5f7;
+			position: relative;
+			width: 100%;
 		}
 
 		canvas {
 			border-radius: 12px;
+			max-width: 100%;
+			height: auto;
 		}
 
 		.label {
@@ -324,7 +328,7 @@
 				<span class="degree-badge" id="degreeOutput"></span>
 			</div>
 			<div class="canvas-container">
-				<canvas id="graph" width="700" height="450"></canvas>
+				<canvas id="graph"></canvas>
 			</div>
 		</div>
 	</div>
@@ -473,8 +477,21 @@
 		function drawGraph() {
 			const canvas = document.getElementById('graph');
 			const ctx = canvas.getContext('2d');
-			const width = canvas.width;
-			const height = canvas.height;
+			
+			// Set canvas size with device pixel ratio for sharp rendering
+			const containerWidth = canvas.parentElement.clientWidth - 60;
+			const containerHeight = Math.min(450, window.innerHeight * 0.5);
+			const dpr = window.devicePixelRatio || 1;
+			
+			canvas.width = containerWidth * dpr;
+			canvas.height = containerHeight * dpr;
+			canvas.style.width = containerWidth + 'px';
+			canvas.style.height = containerHeight + 'px';
+			
+			ctx.scale(dpr, dpr);
+			
+			const width = containerWidth;
+			const height = containerHeight;
 
 			ctx.clearRect(0, 0, width, height);
 
@@ -625,6 +642,17 @@
 			if (e.key === 'Enter') {
 				addPoint();
 			}
+		});
+
+		// Redraw graph on window resize
+		let resizeTimeout;
+		window.addEventListener('resize', function() {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(function() {
+				if (points.length > 0) {
+					drawGraph();
+				}
+			}, 250);
 		});
 	</script>
 </body>
