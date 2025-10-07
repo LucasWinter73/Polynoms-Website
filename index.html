@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Polynomial Interpolation</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			padding: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.container {
+			background: white;
+			border-radius: 20px;
+			padding: 40px;
+			max-width: 900px;
+			width: 100%;
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+		}
+
+		h1 {
+			color: #667eea;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+		.subtitle {
+			text-align: center;
+			color: #666;
+			margin-bottom: 30px;
+		}
+
+		.input-section {
+			background: #f8f9fa;
+			padding: 20px;
+			border-radius: 10px;
+			margin-bottom: 20px;
+		}
+
+		.point-input {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 15px;
+			align-items: center;
+		}
+
+		input[type="number"] {
+			flex: 1;
+			padding: 12px;
+			border: 2px solid #e0e0e0;
+			border-radius: 8px;
+			font-size: 16px;
+			transition: border-color 0.3s;
+		}
+
+		input[type="number"]:focus {
+			outline: none;
+			border-color: #667eea;
+		}
+
+		button {
+			padding: 12px 24px;
+			border: none;
+			border-radius: 8px;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.3s;
+			font-weight: 600;
+		}
+
+		.btn-add {
+			background: #667eea;
+			color: white;
+			width: 100%;
+			margin-top: 10px;
+		}
+
+		.btn-add:hover {
+			background: #5568d3;
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+		}
+
+		.btn-remove {
+			background: #ff6b6b;
+			color: white;
+			padding: 8px 16px;
+		}
+
+		.btn-remove:hover {
+			background: #ee5a52;
+		}
+
+		.btn-calculate {
+			background: #51cf66;
+			color: white;
+			width: 100%;
+			margin-top: 20px;
+			padding: 15px;
+			font-size: 18px;
+		}
+
+		.btn-calculate:hover {
+			background: #40c057;
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(81, 207, 102, 0.4);
+		}
+
+		.points-list {
+			margin-bottom: 20px;
+		}
+
+		.point-item {
+			background: white;
+			padding: 12px;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		.result-section {
+			background: #f8f9fa;
+			padding: 20px;
+			border-radius: 10px;
+			margin-top: 20px;
+			display: none;
+		}
+
+		.result-section.visible {
+			display: block;
+		}
+
+		.polynomial {
+			background: white;
+			padding: 20px;
+			border-radius: 8px;
+			font-family: 'Courier New', monospace;
+			font-size: 16px;
+			word-wrap: break-word;
+			margin-top: 15px;
+			border-left: 4px solid #667eea;
+		}
+
+		.canvas-container {
+			margin-top: 20px;
+			background: white;
+			padding: 20px;
+			border-radius: 8px;
+			display: flex;
+			justify-content: center;
+		}
+
+		canvas {
+			border: 1px solid #e0e0e0;
+			border-radius: 5px;
+		}
+
+		.label {
+			font-weight: 600;
+			color: #667eea;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Polynomial Interpolation</h1>
+		<p class="subtitle">Enter points to generate a polynomial that passes through all of them</p>
+
+		<div class="input-section">
+			<div class="label">Add Points (x, y):</div>
+			<div class="point-input">
+				<input type="number" id="xInput" placeholder="x coordinate" step="any">
+				<input type="number" id="yInput" placeholder="y coordinate" step="any">
+			</div>
+			<button class="btn-add" onclick="addPoint()">Add Point</button>
+		</div>
+
+		<div class="points-list" id="pointsList"></div>
+
+		<button class="btn-calculate" onclick="calculatePolynomial()">Calculate Polynomial</button>
+
+		<div class="result-section" id="resultSection">
+			<div class="label">Polynomial Equation:</div>
+			<div class="polynomial" id="polynomialOutput"></div>
+			<div class="label" style="margin-top: 20px;">Degree: <span id="degreeOutput"></span></div>
+			<div class="canvas-container">
+				<canvas id="graph" width="600" height="400"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		let points = [];
+
+		function addPoint() {
+			const xInput = document.getElementById('xInput');
+			const yInput = document.getElementById('yInput');
+			const x = parseFloat(xInput.value);
+			const y = parseFloat(yInput.value);
+
+			if (isNaN(x) || isNaN(y)) {
+				alert('Please enter valid numbers for both coordinates');
+				return;
+			}
+
+			points.push({ x, y });
+			xInput.value = '';
+			yInput.value = '';
+			xInput.focus();
+			updatePointsList();
+		}
+
+		function removePoint(index) {
+			points.splice(index, 1);
+			updatePointsList();
+			if (points.length > 0) {
+				calculatePolynomial();
+			} else {
+				document.getElementById('resultSection').classList.remove('visible');
+			}
+		}
+
+		function updatePointsList() {
+			const list = document.getElementById('pointsList');
+			if (points.length === 0) {
+				list.innerHTML = '';
+				return;
+			}
+
+			list.innerHTML = '<div class="label">Points:</div>';
+			points.forEach((point, index) => {
+				const item = document.createElement('div');
+				item.className = 'point-item';
+				item.innerHTML = `
+					<span>Point ${index + 1}: (${point.x}, ${point.y})</span>
+					<button class="btn-remove" onclick="removePoint(${index})">Remove</button>
+				`;
+				list.appendChild(item);
+			});
+		}
+
+		function lagrangeInterpolation(points, x) {
+			let result = 0;
+			const n = points.length;
+
+			for (let i = 0; i < n; i++) {
+				let term = points[i].y;
+				for (let j = 0; j < n; j++) {
+					if (i !== j) {
+						term *= (x - points[j].x) / (points[i].x - points[j].x);
+					}
+				}
+				result += term;
+			}
+			return result;
+		}
+
+		function getPolynomialCoefficients(points) {
+			const n = points.length;
+			const coeffs = new Array(n).fill(0);
+
+			for (let i = 0; i < n; i++) {
+				let basis = [1];
+				
+				for (let j = 0; j < n; j++) {
+					if (i !== j) {
+						const newBasis = new Array(basis.length + 1).fill(0);
+						for (let k = 0; k < basis.length; k++) {
+							newBasis[k] += basis[k] * (-points[j].x);
+							newBasis[k + 1] += basis[k];
+						}
+						basis = newBasis;
+						
+						const denom = points[i].x - points[j].x;
+						basis = basis.map(c => c / denom);
+					}
+				}
+				
+				for (let k = 0; k < basis.length; k++) {
+					coeffs[k] += basis[k] * points[i].y;
+				}
+			}
+
+			return coeffs;
+		}
+
+		function formatPolynomial(coeffs) {
+			let terms = [];
+			const n = coeffs.length;
+
+			for (let i = n - 1; i >= 0; i--) {
+				const coeff = coeffs[i];
+				if (Math.abs(coeff) < 1e-10) continue;
+
+				const absCoeff = Math.abs(coeff);
+				const sign = coeff > 0 ? '+' : '-';
+				const coeffStr = absCoeff.toFixed(4).replace(/\.?0+$/, '');
+
+				if (i === 0) {
+					terms.push(`${sign} ${coeffStr}`);
+				} else if (i === 1) {
+					terms.push(`${sign} ${coeffStr}x`);
+				} else {
+					terms.push(`${sign} ${coeffStr}x^${i}`);
+				}
+			}
+
+			if (terms.length === 0) return 'P(x) = 0';
+
+			let result = 'P(x) = ' + terms.join(' ');
+			if (result.startsWith('P(x) = +')) {
+				result = result.replace('P(x) = +', 'P(x) = ');
+			}
+			return result;
+		}
+
+		function calculatePolynomial() {
+			if (points.length === 0) {
+				alert('Please add at least one point');
+				return;
+			}
+
+			const coeffs = getPolynomialCoefficients(points);
+			const polynomialStr = formatPolynomial(coeffs);
+			
+			document.getElementById('polynomialOutput').textContent = polynomialStr;
+			document.getElementById('degreeOutput').textContent = points.length - 1;
+			document.getElementById('resultSection').classList.add('visible');
+
+			drawGraph();
+		}
+
+		function drawGraph() {
+			const canvas = document.getElementById('graph');
+			const ctx = canvas.getContext('2d');
+			const width = canvas.width;
+			const height = canvas.height;
+
+			ctx.clearRect(0, 0, width, height);
+
+			if (points.length === 0) return;
+
+			const xValues = points.map(p => p.x);
+			const yValues = points.map(p => p.y);
+			const xMin = Math.min(...xValues) - 1;
+			const xMax = Math.max(...xValues) + 1;
+			const yMin = Math.min(...yValues) - 1;
+			const yMax = Math.max(...yValues) + 1;
+
+			const xRange = xMax - xMin;
+			const yRange = yMax - yMin;
+
+			const padding = 60;
+
+			function toCanvasX(x) {
+				return ((x - xMin) / xRange) * (width - 2 * padding) + padding;
+			}
+
+			function toCanvasY(y) {
+				return height - padding - ((y - yMin) / yRange) * (height - 2 * padding);
+			}
+
+			ctx.fillStyle = '#333';
+			ctx.font = '12px Arial';
+			ctx.textAlign = 'center';
+
+			function getNiceStep(range) {
+				const rawStep = range / 8;
+				const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+				const normalized = rawStep / magnitude;
+				let niceNormalized;
+				if (normalized < 1.5) niceNormalized = 1;
+				else if (normalized < 3) niceNormalized = 2;
+				else if (normalized < 7) niceNormalized = 5;
+				else niceNormalized = 10;
+				return niceNormalized * magnitude;
+			}
+
+			const xStep = getNiceStep(xRange);
+			const yStep = getNiceStep(yRange);
+
+			ctx.strokeStyle = '#e0e0e0';
+			ctx.lineWidth = 1;
+
+			const xStart = Math.ceil(xMin / xStep) * xStep;
+			for (let x = xStart; x <= xMax; x += xStep) {
+				const canvasX = toCanvasX(x);
+				ctx.beginPath();
+				ctx.moveTo(canvasX, padding);
+				ctx.lineTo(canvasX, height - padding);
+				ctx.stroke();
+
+				ctx.fillStyle = '#666';
+				ctx.fillText(x.toFixed(2).replace(/\.?0+$/, ''), canvasX, height - padding + 20);
+			}
+
+			const yStart = Math.ceil(yMin / yStep) * yStep;
+			for (let y = yStart; y <= yMax; y += yStep) {
+				const canvasY = toCanvasY(y);
+				ctx.beginPath();
+				ctx.moveTo(padding, canvasY);
+				ctx.lineTo(width - padding, canvasY);
+				ctx.stroke();
+
+				ctx.fillStyle = '#666';
+				ctx.textAlign = 'right';
+				ctx.fillText(y.toFixed(2).replace(/\.?0+$/, ''), padding - 10, canvasY + 4);
+			}
+
+			ctx.strokeStyle = '#999';
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.moveTo(padding, toCanvasY(0));
+			ctx.lineTo(width - padding, toCanvasY(0));
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(toCanvasX(0), padding);
+			ctx.lineTo(toCanvasX(0), height - padding);
+			ctx.stroke();
+
+			ctx.fillStyle = '#333';
+			ctx.font = '14px Arial';
+			ctx.textAlign = 'center';
+			ctx.fillText('x', width - padding + 20, toCanvasY(0) + 4);
+			ctx.save();
+			ctx.translate(padding - 40, height / 2);
+			ctx.rotate(-Math.PI / 2);
+			ctx.fillText('y', 0, 0);
+			ctx.restore();
+
+			ctx.strokeStyle = '#667eea';
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			for (let i = 0; i <= 500; i++) {
+				const x = xMin + (i / 500) * xRange;
+				const y = lagrangeInterpolation(points, x);
+				const canvasX = toCanvasX(x);
+				const canvasY = toCanvasY(y);
+
+				if (i === 0) {
+					ctx.moveTo(canvasX, canvasY);
+				} else {
+					ctx.lineTo(canvasX, canvasY);
+				}
+			}
+			ctx.stroke();
+
+			points.forEach(point => {
+				ctx.fillStyle = '#ff6b6b';
+				ctx.beginPath();
+				ctx.arc(toCanvasX(point.x), toCanvasY(point.y), 6, 0, 2 * Math.PI);
+				ctx.fill();
+				ctx.strokeStyle = 'white';
+				ctx.lineWidth = 2;
+				ctx.stroke();
+			});
+		}
+
+		document.getElementById('xInput').addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				document.getElementById('yInput').focus();
+			}
+		});
+
+		document.getElementById('yInput').addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				addPoint();
+			}
+		});
+	</script>
+</body>
+</html>
