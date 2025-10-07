@@ -616,8 +616,8 @@
 					toCanvasX(point.x), toCanvasY(point.y), 0,
 					toCanvasX(point.x), toCanvasY(point.y), 8
 				);
-				pointGradient.addColorStop(0, '#FF3B30');
-				pointGradient.addColorStop(1, '#FF2D55');
+				pointGradient.addColorStop(0, '#0099ff');
+				pointGradient.addColorStop(1, '#4e5052');
 				
 				ctx.fillStyle = pointGradient;
 				ctx.beginPath();
@@ -626,7 +626,7 @@
 				ctx.strokeStyle = 'white';
 				ctx.lineWidth = 3;
 				ctx.stroke();
-				ctx.shadowColor = 'rgba(255, 59, 48, 0.4)';
+				ctx.shadowColor = 'rgba(0, 122, 255, 0.3)';
 				ctx.shadowBlur = 8;
 				ctx.stroke();
 				ctx.shadowBlur = 0;
