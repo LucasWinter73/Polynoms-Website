@@ -12,168 +12,289 @@
 		}
 
 		body {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+			background: linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
 			min-height: 100vh;
-			padding: 20px;
+			padding: 40px 20px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 
 		.container {
-			background: white;
-			border-radius: 20px;
-			padding: 40px;
-			max-width: 900px;
+			background: rgba(255, 255, 255, 0.9);
+			backdrop-filter: blur(20px);
+			border-radius: 30px;
+			padding: 60px 50px;
+			max-width: 1000px;
 			width: 100%;
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 
+						0 0 1px rgba(0, 0, 0, 0.1);
+			animation: fadeIn 0.6s ease-out;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 
 		h1 {
-			color: #667eea;
+			background: linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #AF52DE 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			font-size: 48px;
+			font-weight: 700;
 			margin-bottom: 10px;
 			text-align: center;
+			letter-spacing: -0.5px;
 		}
 
 		.subtitle {
 			text-align: center;
-			color: #666;
-			margin-bottom: 30px;
+			color: #86868b;
+			margin-bottom: 50px;
+			font-size: 18px;
+			font-weight: 400;
 		}
 
 		.input-section {
-			background: #f8f9fa;
-			padding: 20px;
-			border-radius: 10px;
-			margin-bottom: 20px;
+			background: linear-gradient(135deg, rgba(0, 122, 255, 0.03) 0%, rgba(88, 86, 214, 0.03) 100%);
+			padding: 30px;
+			border-radius: 20px;
+			margin-bottom: 30px;
+			border: 1px solid rgba(0, 122, 255, 0.1);
+			transition: all 0.3s ease;
+		}
+
+		.input-section:hover {
+			border-color: rgba(0, 122, 255, 0.2);
+			box-shadow: 0 8px 24px rgba(0, 122, 255, 0.08);
 		}
 
 		.point-input {
 			display: flex;
-			gap: 10px;
-			margin-bottom: 15px;
+			gap: 12px;
+			margin-bottom: 20px;
 			align-items: center;
 		}
 
 		input[type="number"] {
 			flex: 1;
-			padding: 12px;
-			border: 2px solid #e0e0e0;
-			border-radius: 8px;
-			font-size: 16px;
-			transition: border-color 0.3s;
+			padding: 16px 20px;
+			border: 1.5px solid #d2d2d7;
+			border-radius: 12px;
+			font-size: 17px;
+			transition: all 0.3s ease;
+			background: white;
+			color: #1d1d1f;
 		}
 
 		input[type="number"]:focus {
 			outline: none;
-			border-color: #667eea;
+			border-color: #007AFF;
+			box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+			transform: translateY(-1px);
+		}
+
+		input[type="number"]::placeholder {
+			color: #86868b;
 		}
 
 		button {
-			padding: 12px 24px;
+			padding: 16px 32px;
 			border: none;
-			border-radius: 8px;
-			font-size: 16px;
+			border-radius: 12px;
+			font-size: 17px;
 			cursor: pointer;
-			transition: all 0.3s;
+			transition: all 0.3s ease;
 			font-weight: 600;
+			letter-spacing: -0.2px;
 		}
 
 		.btn-add {
-			background: #667eea;
+			background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
 			color: white;
 			width: 100%;
-			margin-top: 10px;
+			box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
 		}
 
 		.btn-add:hover {
-			background: #5568d3;
 			transform: translateY(-2px);
-			box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+			box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4);
+		}
+
+		.btn-add:active {
+			transform: translateY(0);
 		}
 
 		.btn-remove {
-			background: #ff6b6b;
+			background: linear-gradient(135deg, #FF3B30 0%, #FF2D55 100%);
 			color: white;
-			padding: 8px 16px;
+			padding: 10px 20px;
+			font-size: 14px;
+			box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
 		}
 
 		.btn-remove:hover {
-			background: #ee5a52;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
 		}
 
 		.btn-calculate {
-			background: #51cf66;
+			background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
 			color: white;
 			width: 100%;
-			margin-top: 20px;
-			padding: 15px;
-			font-size: 18px;
+			padding: 18px;
+			font-size: 19px;
+			box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
 		}
 
 		.btn-calculate:hover {
-			background: #40c057;
 			transform: translateY(-2px);
-			box-shadow: 0 5px 15px rgba(81, 207, 102, 0.4);
+			box-shadow: 0 8px 24px rgba(52, 199, 89, 0.4);
+		}
+
+		.btn-calculate:active {
+			transform: translateY(0);
 		}
 
 		.points-list {
-			margin-bottom: 20px;
+			margin-bottom: 30px;
 		}
 
 		.point-item {
 			background: white;
-			padding: 12px;
-			border-radius: 8px;
-			margin-bottom: 10px;
+			padding: 18px 24px;
+			border-radius: 14px;
+			margin-bottom: 12px;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+			border: 1px solid #f5f5f7;
+			animation: slideIn 0.3s ease-out;
+			transition: all 0.3s ease;
+		}
+
+		.point-item:hover {
+			transform: translateX(4px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateX(-20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
 		}
 
 		.result-section {
-			background: #f8f9fa;
-			padding: 20px;
-			border-radius: 10px;
-			margin-top: 20px;
-			display: none;
+			background: linear-gradient(135deg, rgba(88, 86, 214, 0.03) 0%, rgba(175, 82, 222, 0.03) 100%);
+			padding: 30px;
+			border-radius: 20px;
+			margin-top: 30px;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: all 0.5s ease;
+			pointer-events: none;
+			border: 1px solid rgba(88, 86, 214, 0.1);
 		}
 
 		.result-section.visible {
-			display: block;
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: all;
 		}
 
 		.polynomial {
 			background: white;
-			padding: 20px;
-			border-radius: 8px;
-			font-family: 'Courier New', monospace;
+			padding: 24px 28px;
+			border-radius: 14px;
+			font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
 			font-size: 16px;
 			word-wrap: break-word;
 			margin-top: 15px;
-			border-left: 4px solid #667eea;
+			border-left: 4px solid #007AFF;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+			color: #1d1d1f;
+			line-height: 1.6;
 		}
 
 		.canvas-container {
-			margin-top: 20px;
+			margin-top: 30px;
 			background: white;
-			padding: 20px;
-			border-radius: 8px;
+			padding: 30px;
+			border-radius: 18px;
 			display: flex;
 			justify-content: center;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+			border: 1px solid #f5f5f7;
 		}
 
 		canvas {
-			border: 1px solid #e0e0e0;
-			border-radius: 5px;
+			border-radius: 12px;
 		}
 
 		.label {
 			font-weight: 600;
-			color: #667eea;
-			margin-bottom: 10px;
+			background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			margin-bottom: 12px;
+			font-size: 15px;
+			letter-spacing: -0.2px;
+			text-transform: uppercase;
+		}
+
+		.point-item span {
+			color: #1d1d1f;
+			font-weight: 500;
+			font-size: 16px;
+		}
+
+		.degree-badge {
+			display: inline-block;
+			background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+			color: white;
+			padding: 6px 16px;
+			border-radius: 20px;
+			font-weight: 600;
+			font-size: 14px;
+			margin-left: 10px;
+			box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+		}
+
+		.empty-state {
+			text-align: center;
+			color: #86868b;
+			padding: 40px;
+			font-size: 16px;
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				padding: 40px 30px;
+			}
+			
+			h1 {
+				font-size: 36px;
+			}
+			
+			.subtitle {
+				font-size: 16px;
+			}
 		}
 	</style>
 </head>
@@ -183,7 +304,7 @@
 		<p class="subtitle">Enter points to generate a polynomial that passes through all of them</p>
 
 		<div class="input-section">
-			<div class="label">Add Points (x, y):</div>
+			<div class="label">Add Points (x, y)</div>
 			<div class="point-input">
 				<input type="number" id="xInput" placeholder="x coordinate" step="any">
 				<input type="number" id="yInput" placeholder="y coordinate" step="any">
@@ -196,11 +317,14 @@
 		<button class="btn-calculate" onclick="calculatePolynomial()">Calculate Polynomial</button>
 
 		<div class="result-section" id="resultSection">
-			<div class="label">Polynomial Equation:</div>
+			<div class="label">Polynomial Equation</div>
 			<div class="polynomial" id="polynomialOutput"></div>
-			<div class="label" style="margin-top: 20px;">Degree: <span id="degreeOutput"></span></div>
+			<div style="margin-top: 24px;">
+				<span class="label">Degree</span>
+				<span class="degree-badge" id="degreeOutput"></span>
+			</div>
 			<div class="canvas-container">
-				<canvas id="graph" width="600" height="400"></canvas>
+				<canvas id="graph" width="700" height="450"></canvas>
 			</div>
 		</div>
 	</div>
@@ -243,7 +367,7 @@
 				return;
 			}
 
-			list.innerHTML = '<div class="label">Points:</div>';
+			list.innerHTML = '<div class="label">Points</div>';
 			points.forEach((point, index) => {
 				const item = document.createElement('div');
 				item.className = 'point-item';
@@ -376,8 +500,8 @@
 				return height - padding - ((y - yMin) / yRange) * (height - 2 * padding);
 			}
 
-			ctx.fillStyle = '#333';
-			ctx.font = '12px Arial';
+			ctx.fillStyle = '#86868b';
+			ctx.font = '13px -apple-system, BlinkMacSystemFont, sans-serif';
 			ctx.textAlign = 'center';
 
 			function getNiceStep(range) {
@@ -395,7 +519,7 @@
 			const xStep = getNiceStep(xRange);
 			const yStep = getNiceStep(yRange);
 
-			ctx.strokeStyle = '#e0e0e0';
+			ctx.strokeStyle = '#f5f5f7';
 			ctx.lineWidth = 1;
 
 			const xStart = Math.ceil(xMin / xStep) * xStep;
@@ -406,7 +530,7 @@
 				ctx.lineTo(canvasX, height - padding);
 				ctx.stroke();
 
-				ctx.fillStyle = '#666';
+				ctx.fillStyle = '#86868b';
 				ctx.fillText(x.toFixed(2).replace(/\.?0+$/, ''), canvasX, height - padding + 20);
 			}
 
@@ -418,12 +542,12 @@
 				ctx.lineTo(width - padding, canvasY);
 				ctx.stroke();
 
-				ctx.fillStyle = '#666';
+				ctx.fillStyle = '#86868b';
 				ctx.textAlign = 'right';
 				ctx.fillText(y.toFixed(2).replace(/\.?0+$/, ''), padding - 10, canvasY + 4);
 			}
 
-			ctx.strokeStyle = '#999';
+			ctx.strokeStyle = '#d2d2d7';
 			ctx.lineWidth = 2;
 			ctx.beginPath();
 			ctx.moveTo(padding, toCanvasY(0));
@@ -434,18 +558,25 @@
 			ctx.lineTo(toCanvasX(0), height - padding);
 			ctx.stroke();
 
-			ctx.fillStyle = '#333';
-			ctx.font = '14px Arial';
+			ctx.fillStyle = '#1d1d1f';
+			ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
 			ctx.textAlign = 'center';
-			ctx.fillText('x', width - padding + 20, toCanvasY(0) + 4);
+			ctx.fillText('x', width - padding + 20, toCanvasY(0) + 5);
 			ctx.save();
 			ctx.translate(padding - 40, height / 2);
 			ctx.rotate(-Math.PI / 2);
 			ctx.fillText('y', 0, 0);
 			ctx.restore();
 
-			ctx.strokeStyle = '#667eea';
-			ctx.lineWidth = 2;
+			const gradient = ctx.createLinearGradient(0, 0, width, 0);
+			gradient.addColorStop(0, '#007AFF');
+			gradient.addColorStop(0.5, '#5856D6');
+			gradient.addColorStop(1, '#AF52DE');
+			
+			ctx.strokeStyle = gradient;
+			ctx.lineWidth = 3;
+			ctx.shadowColor = 'rgba(0, 122, 255, 0.3)';
+			ctx.shadowBlur = 8;
 			ctx.beginPath();
 			for (let i = 0; i <= 500; i++) {
 				const x = xMin + (i / 500) * xRange;
@@ -460,15 +591,27 @@
 				}
 			}
 			ctx.stroke();
+			ctx.shadowBlur = 0;
 
 			points.forEach(point => {
-				ctx.fillStyle = '#ff6b6b';
+				const pointGradient = ctx.createRadialGradient(
+					toCanvasX(point.x), toCanvasY(point.y), 0,
+					toCanvasX(point.x), toCanvasY(point.y), 8
+				);
+				pointGradient.addColorStop(0, '#FF3B30');
+				pointGradient.addColorStop(1, '#FF2D55');
+				
+				ctx.fillStyle = pointGradient;
 				ctx.beginPath();
-				ctx.arc(toCanvasX(point.x), toCanvasY(point.y), 6, 0, 2 * Math.PI);
+				ctx.arc(toCanvasX(point.x), toCanvasY(point.y), 7, 0, 2 * Math.PI);
 				ctx.fill();
 				ctx.strokeStyle = 'white';
-				ctx.lineWidth = 2;
+				ctx.lineWidth = 3;
 				ctx.stroke();
+				ctx.shadowColor = 'rgba(255, 59, 48, 0.4)';
+				ctx.shadowBlur = 8;
+				ctx.stroke();
+				ctx.shadowBlur = 0;
 			});
 		}
 
